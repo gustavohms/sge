@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from app import metrics
 from . import models, forms
 
 class OutflowListView(ListView):
@@ -15,6 +16,11 @@ class OutflowListView(ListView):
         if product:
             queryset = queryset.filter(product__title__icontains=product)
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sales_metrics'] = metrics.get_sales_metrics()
+        return context
     
 class OutflowCreateView(CreateView):
     model = models.Outflow
