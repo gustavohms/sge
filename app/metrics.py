@@ -21,6 +21,7 @@ def get_product_metrics():
         total_profit=number_format(total_profit, decimal_pos=2, force_grouping=True),
     )
 
+
 def get_sales_metrics():
     total_sales = Outflow.objects.count()
     total_products_sold = Outflow.objects.aggregate(
@@ -37,6 +38,7 @@ def get_sales_metrics():
         total_sales_profit=number_format(total_sales_profit, decimal_pos=2, force_grouping=True),
     )
 
+
 def get_daily_sales_data():
     today = timezone.now().date()
     dates = [str(today - timezone.timedelta(days=i)) for i in range(6, -1, -1)]
@@ -49,11 +51,12 @@ def get_daily_sales_data():
             total_sales=Sum(F('product__selling_price') * F('quantity'))
         )['total_sales'] or 0
         values.append(float(sales_total))
-    
+
     return dict(
         dates=dates,
         values=values,
     )
+
 
 def get_daily_sales_quantity_data():
     today = timezone.now().date()
@@ -63,15 +66,17 @@ def get_daily_sales_quantity_data():
     for date in dates:
         sales_quantity = Outflow.objects.filter(created_at__date=date).count()
         quantities.append(sales_quantity)
-    
+
     return dict(
         dates=dates,
         values=quantities,
     )
 
+
 def get_graphic_product_category_metric():
     categories = Category.objects.all()
     return {category.name: Product.objects.filter(category=category).count() for category in categories}
+
 
 def get_graphic_product_brand_metric():
     brands = Brand.objects.all()

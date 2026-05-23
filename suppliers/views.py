@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from . import models, forms, serializers
 
+
 class SupplierListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = models.Supplier
     template_name = 'supplier_list.html'
@@ -18,7 +19,8 @@ class SupplierListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         if name:
             queryset = queryset.filter(name__icontains=name)
         return queryset
-    
+
+
 class SupplierCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = models.Supplier
     template_name = 'supplier_create.html'
@@ -26,10 +28,12 @@ class SupplierCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
     success_url = reverse_lazy('supplier_list')
     permission_required = 'suppliers.add_supplier'
 
+
 class SupplierDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = models.Supplier
     template_name = 'supplier_detail.html'
     permission_required = 'suppliers.view_supplier'
+
 
 class SupplierUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = models.Supplier
@@ -37,6 +41,7 @@ class SupplierUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView
     form_class = forms.SupplierForm
     success_url = reverse_lazy('supplier_list')
     permission_required = 'suppliers.change_supplier'
+
 
 class SupplierDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = models.Supplier
